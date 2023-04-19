@@ -1,0 +1,117 @@
+* {
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  cursor: default;
+}
+
+@font-face {
+  font-family: "Discord Font";
+  src: url("../fonts/DiscordFontBlack.woff2") format("woff2");
+}
+
+:root {
+  color-scheme: dark;
+
+  --spacing: 14px;
+}
+
+.logoText {
+  font-family: "Discord Font";
+  font-size: 35px;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.logo {
+  display: flex;
+  flex-direction: row;
+}
+
+.logo img {
+  text-align: center;
+}
+
+body {
+  width: auto;
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("../images/background.png") no-repeat center center fixed;
+  display: flex;
+  flex-direction: column;
+
+  gap: var(--spacing);
+  margin: 0 calc(var(--spacing) * 2);
+  height: 100%;
+
+  font: -apple-system-short-body;
+}
+
+body:not(.state-on, .state-off) :is(.state-on, .state-off) {
+  display: none;
+}
+
+body.state-on :is(.state-off, .state-unknown) {
+  display: none;
+}
+
+body.state-off :is(.state-on, .state-unknown) {
+  display: none;
+}
+
+button {
+  display: inline-block;
+  outline: 0;
+  border: 0;
+  cursor: pointer;
+  background-color: #4299e1;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 12px;
+  color: white;
+  line-height: 14px;
+}
+
+ol {
+  margin-top: 0;
+  padding-left: var(--spacing);
+}
+
+ol li::marker,
+ol p {
+  font-size: 14px;
+}
+
+.downloadApp p:first-child {
+  margin-bottom: 0;
+}
+
+.downloadApp p:last-child {
+  color: #d3d3d3;
+  margin-top: 2px;
+}
+
+a:link {
+  color: #0572ec;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+footer {
+  bottom: 0;
+  position: fixed;
+  padding-right: var(--spacing);
+}
+
+footer p {
+  font-size: 12px;
+  text-align: right;
+  float: right;
+}
+
+footer p:first-child {
+  margin-bottom: 2px;
+}
+
+.state-unknown,
+.state-on,
+.state-off {
+  margin-top: 2px;
+}
