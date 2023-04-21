@@ -12,23 +12,23 @@ struct ScriptMessage: Codable {
 
 class ViewController: NSViewController, WKNavigationDelegate, WKScriptMessageHandler {
     @IBOutlet var webView: CustomWebView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.webView.navigationDelegate = self
-        
+
         self.webView.configuration.userContentController.add(self, name: "controller")
 
         self.webView.loadFileURL(Bundle.main.url(forResource: "index", withExtension: "html")!, allowingReadAccessTo: Bundle.main.resourceURL!)
     }
-    
+
     @IBAction func showHelp(_ sender: AnyObject) {
         if let url = URL(string: "https://docs.premid.app/") {
             NSWorkspace.shared.open(url)
         }
     }
-    
+
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         SFSafariExtensionManager.getStateOfSafariExtension(withIdentifier: extensionBundleIdentifier) { (state, error) in
             guard let state = state, error == nil else {
@@ -40,14 +40,14 @@ class ViewController: NSViewController, WKNavigationDelegate, WKScriptMessageHan
                 alert.alertStyle = .critical
                 DispatchQueue.main.async {
                     let modalResponse = alert.runModal()
-                    
+
                     if modalResponse == NSApplication.ModalResponse.alertFirstButtonReturn {
                         NSApplication.shared.terminate(nil)
                     }
-                    
+
                     return
                 }
-                
+
                 return
             }
 
@@ -66,14 +66,14 @@ class ViewController: NSViewController, WKNavigationDelegate, WKScriptMessageHan
         let bodyData = bodyString.data(using: .utf8) else {
            return
         }
-        
+
         let bodyStruct = try? JSONDecoder().decode(ScriptMessage.self, from: bodyData);
-                
+
         if(bodyStruct!.type == "open-preferences") {
             SFSafariApplication.showPreferencesForExtension(withIdentifier: extensionBundleIdentifier)
         }
 
-        if(bodyStruct?.type == "open-url" && bodyStruct?.url != nil) {
+        if(bodyStruct!.type == "open-url" && bodyStruct?.url != nil) {
             guard let url = URL(string: bodyStruct?.url ?? "") else { return }
             NSWorkspace.shared.open(url)
         }
